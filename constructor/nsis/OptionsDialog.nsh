@@ -21,17 +21,18 @@ Function mui_AnaCustomOptions_InitDefaults
     # Initialize defaults
     ${If} $Ana_AddToPath_State == ""
         StrCpy $Ana_AddToPath_State ${BST_UNCHECKED}
+        StrCpy $Ana_RegisterSystemPython_State ${BST_UNCHECKED}
         # Default whether to register as system python as:
         #   Enabled - if no system python is registered, OR
         #             a system python which does not exist is registered.
         #   Disabled - If a system python which exists is registered.
-        ReadRegStr $2 SHCTX "Software\Python\PythonCore\${PY_VER}\InstallPath" ""
-        ${If} "$2" != ""
-        ${AndIf} ${FileExists} "$2\Python.exe"
-            StrCpy $Ana_RegisterSystemPython_State ${BST_UNCHECKED}
-        ${Else}
-            StrCpy $Ana_RegisterSystemPython_State ${BST_CHECKED}
-        ${EndIf}
+        #ReadRegStr $2 SHCTX "Software\Python\PythonCore\${PY_VER}\InstallPath" ""
+        #${If} "$2" != ""
+        #${AndIf} ${FileExists} "$2\Python.exe"
+        #    StrCpy $Ana_RegisterSystemPython_State ${BST_UNCHECKED}
+        #${Else}
+        #    StrCpy $Ana_RegisterSystemPython_State ${BST_CHECKED}
+        #${EndIf}
     ${EndIf}
 FunctionEnd
 
