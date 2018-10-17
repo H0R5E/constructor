@@ -119,6 +119,7 @@ def run_post_install():
         return
     env = os.environ
     env['PREFIX'] = str(ROOT_PREFIX)
+    env['SYSDIR'] = os.path.dirname(env['COMSPEC'])
     try:
         args = [env['COMSPEC'], '/c', path]
     except KeyError:
