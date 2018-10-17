@@ -260,7 +260,7 @@ Function InstModePage_Create
     Pop $1
     ${NSD_OnBack} RemoveNextBtnShield
     ${NSD_CreateLabel} 0 20u 75% 20u "Install for:"
-    ${NSD_CreateRadioButton} 0 40u 75% 15u "Just Me (recommended)"
+    ${NSD_CreateRadioButton} 0 40u 75% 15u "Just Me"
     Pop $2
     #MessageBox MB_OK "OnClick 2! 0: $0, 1: $1, 2: $2"
     StrCpy $InstModePage_RadioButton_JustMe $2
