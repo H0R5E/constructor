@@ -73,8 +73,8 @@ Function mui_AnaCustomOptions_Show
 
     ${NSD_CreateLabel} 20u 27u 240u 40u \
         "Not recommended. Instead, open ${NAME} with the Windows Start$\n\
-         menu and select $\"Anaconda (${ARCH})$\". This $\"add to PATH$\" option makes$\n\
-         ${NAME} get found before previously installed software, but may$\n\
+         menu and select $\"${NAME} (${ARCH})$\". This $\"add to PATH$\"$\n\
+         option makes the command line tools of ${NAME} get found, but may$\n\
          cause problems requiring you to uninstall and reinstall ${NAME}."
     Pop $Ana_AddToPath_Label
 
