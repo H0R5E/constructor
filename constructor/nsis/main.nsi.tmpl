@@ -822,6 +822,11 @@ Section "Install"
         WriteRegDWORD SHCTX "${UNINSTREG}" "NoRepair" 1
     ${EndIf}
 
+    # Add DTOCean start menu folder and grant all-user access
+    CreateDirectory "$SMPROGRAMS\DTOcean"
+    AccessControl::GrantOnFile "$SMPROGRAMS\DTOcean" \
+        "(S-1-5-32-545)" "GenericRead + AddFile + AddSubdirectory"
+
     WriteUninstaller "$INSTDIR\Uninstall-${NAME}.exe"
 SectionEnd
 
@@ -846,5 +851,6 @@ Section "Uninstall"
 
     # Trivial removal of whole directory for now
     RMDir /r /REBOOTOK "$INSTDIR"
+    RMDir "$SMPROGRAMS\DTOcean"
 
 SectionEnd

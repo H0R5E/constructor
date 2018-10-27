@@ -115,17 +115,25 @@ def run_post_install():
     call the post install script, if the file exists
     """
     path = join(ROOT_PREFIX, 'pkgs', 'post_install.bat')
-    if not isfile(path):
-        return
+    if not isfile(path): return
+    
     env = os.environ
     env['PREFIX'] = str(ROOT_PREFIX)
-    env['SYSDIR'] = os.path.dirname(env['COMSPEC'])
+    
+    if allusers:
+        env['NONADMIN'] = "0"
+    else:
+        env['NONADMIN'] = "1"
+        
     try:
         args = [env['COMSPEC'], '/c', path]
+        env['SYSDIR'] = os.path.dirname(env['COMSPEC'])
     except KeyError:
         err("Error: COMSPEC undefined\n")
         return
+    
     import subprocess
+    
     try:
         subprocess.check_call(args, env=env)
     except subprocess.CalledProcessError:
