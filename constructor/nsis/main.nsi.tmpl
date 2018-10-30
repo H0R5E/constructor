@@ -823,8 +823,8 @@ Section "Install"
     ${EndIf}
 
     # Add DTOCean start menu folder and grant all-user access
-    CreateDirectory "$SMPROGRAMS\DTOcean"
-    AccessControl::GrantOnFile "$SMPROGRAMS\DTOcean" \
+    CreateDirectory "$SMPROGRAMS\${NAME} (${ARCH})"
+    AccessControl::GrantOnFile "$SMPROGRAMS\${NAME} (${ARCH})" \
         "(S-1-5-32-545)" "GenericRead + AddFile + AddSubdirectory"
 
     WriteUninstaller "$INSTDIR\Uninstall-${NAME}.exe"
@@ -851,6 +851,8 @@ Section "Uninstall"
 
     # Trivial removal of whole directory for now
     RMDir /r /REBOOTOK "$INSTDIR"
-    RMDir "$SMPROGRAMS\DTOcean"
+    
+    # Remove DTOCean start menu folder
+    RMDir "$SMPROGRAMS\${NAME} (${ARCH})"
 
 SectionEnd
