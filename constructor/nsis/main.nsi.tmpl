@@ -826,6 +826,21 @@ Section "Install"
     CreateDirectory "$SMPROGRAMS\${NAME} (${ARCH})"
     AccessControl::GrantOnFile "$SMPROGRAMS\${NAME} (${ARCH})" \
         "(S-1-5-32-545)" "GenericRead + AddFile + AddSubdirectory"
+    
+    # Set PROJ_LIB for basemap
+    
+    # HKLM (all users) vs HKCU (current user) defines
+    !define env_hklm 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
+    !define env_hkcu 'HKCU "Environment"'
+    
+    ;${If} $InstMode = ${JUST_ME}
+    WriteRegExpandStr ${env_hkcu} PROJ_LIB "$INSTDIR\Library\share"
+    ;${Else}
+    WriteRegExpandStr ${env_hklm} PROJ_LIB "$INSTDIR\Library\share"
+    ;${EndIf}
+    
+    # make sure windows knows about the change
+    SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 
     WriteUninstaller "$INSTDIR\Uninstall-${NAME}.exe"
 SectionEnd
@@ -840,6 +855,13 @@ Section "Uninstall"
     # Remove menu items, path entries
     ExecWait '"$INSTDIR\pythonw.exe" -E -s "$INSTDIR\Lib\_nsis.py" rmmenus'
     ExecWait '"$INSTDIR\pythonw.exe" -E -s "$INSTDIR\Lib\_nsis.py" rmpath'
+
+   # delete PROJ_LIB
+   DeleteRegValue ${env_hklm} PROJ_LIB
+   DeleteRegValue ${env_hkcu} PROJ_LIB
+   
+   # make sure windows knows about the change
+   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 
     DeleteRegKey SHCTX "${UNINSTREG}"
     # If Anaconda was registered as the official Python for this version,
