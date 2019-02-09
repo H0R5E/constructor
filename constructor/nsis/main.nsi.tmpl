@@ -856,12 +856,6 @@ Section "Uninstall"
     ExecWait '"$INSTDIR\pythonw.exe" -E -s "$INSTDIR\Lib\_nsis.py" rmmenus'
     ExecWait '"$INSTDIR\pythonw.exe" -E -s "$INSTDIR\Lib\_nsis.py" rmpath'
 
-    # Trivial removal of whole directory for now
-    RMDir /r /REBOOTOK "$INSTDIR"
-    
-    # Remove DTOCean start menu folder
-    RMDir "$SMPROGRAMS\${NAME} (${ARCH})"
-    
    # delete PROJ_LIB
    DeleteRegValue ${env_hklm} PROJ_LIB
    DeleteRegValue ${env_hkcu} PROJ_LIB
@@ -876,5 +870,11 @@ Section "Uninstall"
     ${If} $0 == "$INSTDIR"
         DeleteRegKey SHCTX "Software\Python\PythonCore\${PY_VER}"
     ${EndIf}
+
+    # Trivial removal of whole directory for now
+    RMDir /r /REBOOTOK "$INSTDIR"
+    
+    # Remove DTOCean start menu folder
+    RMDir "$SMPROGRAMS\${NAME} (${ARCH})"
 
 SectionEnd
